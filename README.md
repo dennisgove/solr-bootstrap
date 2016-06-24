@@ -169,3 +169,13 @@ ZooKeeper JMX enabled by default
 Using config: /tmp/solr-go/data/zookeeper/instance-20003.cfg
 Stopping zookeeper ... STOPPED
 ```
+
+### Uninstall
+
+This just uninstalls the solr and zookeeper binaries but does not touch the data directories.
+
+```
+$> python sbs uninstall -cfg test.cfg
+Removing Zookeeper from /tmp/solr-go/bin/zookeeper
+Removing Solr from /tmp/solr-go/bin/solr
+```
