@@ -6,7 +6,7 @@ Solr Bootstrap, sbs, provides a simple to use python script to install, start, a
 
 To function, sbs requires a single configuration file providing options about where to get the Solr & Zookeeper packages to use, where to install them, and under which ports instances should be brought up.
 
-```json
+```
 {
   "rootDirectory":"/Users/dennis/tmp/solr-go",
     # absolute path to where we want to install everything
@@ -60,7 +60,7 @@ Each command below acts on both solr and zookeeper but it is possible to act on 
 
 ### Installing
 
-```
+```bash
 $> python sbs install -cfg test.cfg
 Installing Zookeeper to /tmp/solr-go/bin/zookeeper
 Downloading file:///Users/dennis/tmp/zookeeper-3.4.8.tar.gz...100%
@@ -70,7 +70,7 @@ Downloading file:///Users/dennis/tmp/solr-6.1.0.tgz...100%
 
 ### Starting
 
-```
+```bash
 $> python sbs start -cfg test.cfg
 Starting zookeeper on port 20001
 ZooKeeper JMX enabled by default
@@ -99,7 +99,7 @@ Started Solr server on port 30003 (pid=22306). Happy searching!
 
 ### Checking Status
 
-```
+```bash
 $> python sbs status -cfg test.cfg
 Zookeeper Status:
   Installed: Yes, at /tmp/solr-go/bin/zookeeper
@@ -148,7 +148,7 @@ Solr Status:
 
 ### Stopping
 
-```
+```bash
 $> python sbs stop -cfg test.cfg
 Stopping solr on port 30001
 Sending stop command to Solr running on port 30001 ... waiting 5 seconds to allow Jetty process 22067 to stop gracefully.
@@ -174,7 +174,7 @@ Stopping zookeeper ... STOPPED
 
 This just uninstalls the solr and zookeeper binaries but does not touch the data directories.
 
-```
+```bash
 $> python sbs uninstall -cfg test.cfg
 Removing Zookeeper from /tmp/solr-go/bin/zookeeper
 Removing Solr from /tmp/solr-go/bin/solr
