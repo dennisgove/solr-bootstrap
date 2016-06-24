@@ -1,0 +1,2 @@
+# solr-bootstrap
+Solr Bootstrapping
