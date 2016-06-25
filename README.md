@@ -63,9 +63,9 @@ Each command below acts on both solr and zookeeper but it is possible to act on 
 ```bash
 $> python sbs install -cfg test.cfg
 Installing Zookeeper to /tmp/solr-go/bin/zookeeper
-Downloading file:///Users/dennis/tmp/zookeeper-3.4.8.tar.gz...100%
+Downloading http://apache.claz.org/zookeeper/zookeeper-3.4.8/zookeeper-3.4.8.tar.gz...100%
 Installing Solr to /tmp/solr-go/bin/solr
-Downloading file:///Users/dennis/tmp/solr-6.1.0.tgz...100%
+Downloading http://apache.claz.org/lucene/solr/6.1.0/solr-6.1.0.tgz...100%
 ```
 
 ### Starting
