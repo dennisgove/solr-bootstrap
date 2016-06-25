@@ -56,7 +56,7 @@ Example,
 
 At the moment I'm not providing a packaged build of this (in the works) so for now, navigate to the src/main/python and run from there. Every command below has a required final parameter `-cfg [path to config]` so don't forget to include that.
 
-Each command below acts on both solr and zookeeper but it is possible to act on just one or the other. To do so all you need to provide is one additional argument. For example, instead of `python sbs install -cfg /tmp/my.cfg` you'd provide `python sbs solr install -cfg /tmp/my.cfg` and then only solr will be installed. This is useful you want to replace your instance of solr but have no need to mess around with zookeeper. This pattern holds for all commands you see below.
+Each command below acts on both solr and zookeeper but it is possible to act on just one or the other. To do so all you need to provide is one additional argument. For example, instead of `python sbs install -cfg /tmp/my.cfg` you'd provide `python sbs solr install -cfg /tmp/my.cfg` and then only solr will be installed or `python sbs zk install -cfg /tmp/my.cfg` and then only zookeeper would be installed. This is useful you want to replace your instance of solr but have no need to mess around with zookeeper. This pattern holds for all commands you see below.
 
 ### Installing
 
