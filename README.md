@@ -179,3 +179,109 @@ $> python sbs uninstall -cfg test.cfg
 Removing Zookeeper from /tmp/solr-go/bin/zookeeper
 Removing Solr from /tmp/solr-go/bin/solr
 ```
+
+### Create Collection
+
+Collection creation should be done using the standard solr scripts. Below is an example call to create a collection called 'sample' with 4 shards and 3 replicas, using the configuration in test/main/conf. (this example assumes we're still in the src/main/python directory)
+
+```bash
+$> /tmp/solr-go/bin/solr/bin/solr create -p 30001 -c sample -d ../../../test/main/conf/sample -n sample -shards 4 -replicationFactor 3
+INFO  - 2016-06-28 06:41:13.474; org.apache.solr.client.solrj.impl.CloudSolrClient; Final constructed zkHost string: localhost:20001,localhost:20002,localhost:20003
+
+Connecting to ZooKeeper at localhost:20001,localhost:20002,localhost:20003 ...
+Uploading /Users/dennis/dev/solr-bootstrap/src/main/python/../../../test/main/conf/sample for config sample to ZooKeeper at localhost:20001,localhost:20002,localhost:20003
+
+Creating new collection 'sample' using command:
+http://localhost:30001/solr/admin/collections?action=CREATE&name=sample&numShards=4&replicationFactor=3&maxShardsPerNode=4&collection.configName=sample
+
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":12025},
+  "success":{
+    "172.20.10.2:30001_solr":{
+      "responseHeader":{
+        "status":0,
+        "QTime":2781},
+      "core":"sample_shard1_replica3"},
+    "172.20.10.2:30003_solr":{
+      "responseHeader":{
+        "status":0,
+        "QTime":2840},
+      "core":"sample_shard4_replica2"},
+    "172.20.10.2:30002_solr":{
+      "responseHeader":{
+        "status":0,
+        "QTime":2824},
+      "core":"sample_shard3_replica1"}}}
+```
+
+### Delete Collection
+
+Collection deletion should be done using the standard solr scripts. Below is an example call to delete a collection called 'sample'
+
+```bash
+$> /tmp/solr-go/bin/solr/bin/solr delete -c sample -p 30001
+INFO  - 2016-06-28 06:43:47.489; org.apache.solr.client.solrj.impl.CloudSolrClient; Final constructed zkHost string: localhost:20001,localhost:20002,localhost:20003
+Connecting to ZooKeeper at localhost:20001,localhost:20002,localhost:20003
+
+Deleting collection 'sample' using command:
+http://172.20.10.2:30001/solr/admin/collections?action=DELETE&name=sample
+
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":838},
+  "success":{
+    "172.20.10.2:30002_solr":{"responseHeader":{
+        "status":0,
+        "QTime":22}},
+    "172.20.10.2:30001_solr":{"responseHeader":{
+        "status":0,
+        "QTime":47}},
+    "172.20.10.2:30003_solr":{"responseHeader":{
+        "status":0,
+        "QTime":82}}}}
+```
+
+### Indexing Data
+
+I use the following bash script to index a directory of files into solr, feel free to edit and use as you wish. This script will just iterate through all the files in dataDirectory with the expected extension and post them to solr at the provided port. If following along with the sample, it can be run with 
+
+```bash
+$> ./<script> sample 30001 <some dir with data files> json
+```
+
+```bash
+#!/bin/bash
+
+if (( $# < 3 )); then
+  echo "Expected argments collectionName solrPort dataDirectory [data file extension, default='json']"
+  exit 1
+fi
+
+collection=$1
+solrPort=$2
+dataDirectory=$3
+extension="${4:-json}"
+
+echo "Indexing $collection"
+
+files=$(ls $dataDirectory/*.${extension})
+total="$(echo -e "$(wc -w <<< "$files")" | tr -d '[[:space:]]')"
+
+echo "Iterating through $total files"
+
+itemNumber=1
+for file in $files;
+do
+  echo "==================================================================================================================================="
+  echo "($itemNumber of $total) $file"
+
+  echo "/tmp/solr-go/bin/solr/bin/post -p ${solrPort} -c $collection -filetypes ${extension} $file"
+  $SOLR_DIR/bin/post -p ${solrPort} -c $collection -filetypes ${extension} $file
+
+  itemNumber=$((itemNumber+1))
+  echo "==================================================================================================================================="
+done
+```
