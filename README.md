@@ -27,7 +27,7 @@ To function, sbs requires a single configuration file providing options about wh
       # If you have a local copy of the .tgz you can provide its location with format
       # file:///path/to/solr-6.1.0.tgz",
     "ports": [ 30001, 30002, 30003 ],
-      # array of ports we want to bring solr instances up. This controls how many zookeeper processes are 
+      # array of ports we want to bring solr instances up. This controls how many solr processes are 
       # started and made part of the cluster
 
     "memory": "2g"
